@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GeocodeResponse>
+    <status>OK</status>
+    <result>
+        <type>colloquial_area</type>
+        <type>locality</type>
+        <type>political</type>
+        <formatted_address>Santiago, Santiago Metropolitan Region, Chile</formatted_address>
+        <address_component>
+            <long_name>Santiago</long_name>
+            <short_name>Santiago</short_name>
+            <type>colloquial_area</type>
+            <type>locality</type>
+            <type>political</type>
+        </address_component>
+        <address_component>
+            <long_name>Santiago Province</long_name>
+            <short_name>Santiago Province</short_name>
+            <type>administrative_area_level_2</type>
+            <type>political</type>
+        </address_component>
+        <address_component>
+            <long_name>Santiago Metropolitan Region</long_name>
+            <short_name>Santiago Metropolitan Region</short_name>
+            <type>administrative_area_level_1</type>
+            <type>political</type>
+        </address_component>
+        <address_component>
+            <long_name>Chile</long_name>
+            <short_name>CL</short_name>
+            <type>country</type>
+            <type>political</type>
+        </address_component>
+        <geometry>
+            <location>
+                <lat>-33.4488897</lat>
+                <lng>-70.6692655</lng>
+            </location>
+            <location_type>APPROXIMATE</location_type>
+            <viewport>
+                <southwest>
+                    <lat>-33.6741885</lat>
+                    <lng>-70.8328819</lng>
+                </southwest>
+                <northeast>
+                    <lat>-33.2713874</lat>
+                    <lng>-70.4267807</lng>
+                </northeast>
+            </viewport>
+            <bounds>
+                <southwest>
+                    <lat>-33.6741885</lat>
+                    <lng>-70.8328819</lng>
+                </southwest>
+                <northeast>
+                    <lat>-33.2713874</lat>
+                    <lng>-70.4267807</lng>
+                </northeast>
+            </bounds>
+        </geometry>
+        <place_id>ChIJL68lBEHFYpYRMQkPQDzVdYQ</place_id>
+    </result>
+</GeocodeResponse>
