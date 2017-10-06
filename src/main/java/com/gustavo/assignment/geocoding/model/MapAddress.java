@@ -17,6 +17,10 @@ public class MapAddress {
     private String longitude;
 
 
+    public String getStatus() {
+        return status;
+    }
+
     @JsonSetter("result")
     public void setResult(Result result) {
         this.address = result.formatted_address;
