@@ -1,15 +1,29 @@
-package com.gustavo.assinment.helper;
+package com.gustavo.assignment.geocoding.model;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by gvaldes
  */
 
 public class GeocodingErrorResponse {
-
+    @JsonProperty
     private String error;
+    @JsonProperty
     private String errorDescription;
+    @JsonProperty
     private String reference;
+
+
+    public GeocodingErrorResponse(){
+
+    }
+    public GeocodingErrorResponse(String error, String errorDescription, String reference) {
+        this.error = error;
+        this.errorDescription = errorDescription;
+        this.reference = reference;
+    }
 
     public String getError() {
         return error;

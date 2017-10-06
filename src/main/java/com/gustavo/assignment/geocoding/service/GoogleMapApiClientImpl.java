@@ -3,6 +3,7 @@ package com.gustavo.assignment.geocoding.service;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.http.common.HttpMethods;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.dataformat.XmlJsonDataFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class GoogleMapApiClientImpl extends RouteBuilder {
         XmlJsonDataFormat xmlJsonFormat = new XmlJsonDataFormat();
         xmlJsonFormat.setEncoding("UTF-8");
 
-        //onException(Exception.class).handled(true).to("direct:processError");
+        onException(Exception.class).handled(true).to("direct:processServiceError");
 
         from("direct:googleMapsApi")
                 .to("log:input")
@@ -34,9 +35,8 @@ public class GoogleMapApiClientImpl extends RouteBuilder {
                 .to("log:output")
                 .marshal(xmlJsonFormat)
                 .to("bean:googleMapsResponseTranslator");
-        from("direct:processError2")
-                .removeHeaders("*")
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant("500"))
-                .setBody(constant("xsx"));
+        from("direct:processServiceError")
+                .to("bean:googleMapsErrorTranslator")
+                .marshal().json(JsonLibrary.Jackson);
     }
 }

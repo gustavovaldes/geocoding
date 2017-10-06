@@ -44,9 +44,9 @@ public class RestConsumer {
         return objectMapper.readValue(json, GeocodingResponse.class);
     }
 
-    public static GeocodingResponse convertResponseToErrorModel(HttpResponse response) throws IOException {
+    public static GeocodingErrorResponse convertResponseToErrorModel(HttpResponse response) throws IOException {
         String  json = convertResponseToString(response);
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, GeocodingResponse.class);
+        return objectMapper.readValue(json, GeocodingErrorResponse.class);
     }
 }

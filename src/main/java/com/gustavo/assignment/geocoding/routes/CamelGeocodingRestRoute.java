@@ -1,8 +1,7 @@
 package com.gustavo.assignment.geocoding.routes;
 
-
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.dataformat.XmlJsonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
@@ -24,8 +23,6 @@ public class CamelGeocodingRestRoute extends RouteBuilder {
                 .endpointProperty("servletName", "camelHttpTransportServlet")
                 .setBindingMode(RestBindingMode.auto);
 
-
-        errorHandler(deadLetterChannel("direct:processError"));
         onException(Exception.class).to("direct:processError");
 
         rest().description("Geocoding REST service")
@@ -34,8 +31,8 @@ public class CamelGeocodingRestRoute extends RouteBuilder {
                 .to("direct:googleMapsApi");
 
         from("direct:processError")
-                .removeHeaders("*")
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant("500"));
+                .to("bean:geocodingErrorTranslator")
+                .marshal().json(JsonLibrary.Jackson);
 
 
     }

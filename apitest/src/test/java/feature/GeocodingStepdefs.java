@@ -1,6 +1,7 @@
 package feature;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.gustavo.assinment.helper.GeocodingErrorResponse;
 import com.gustavo.assinment.helper.GeocodingResponse;
 import com.gustavo.assinment.helper.RestConsumer;
 import cucumber.api.DataTable;
@@ -31,6 +32,9 @@ public class GeocodingStepdefs  {
     private static final String  ADDRESS = "address";
     private static final String  LATITUDE = "latitude";
     private static final String  LONGITUDE = "longitude";
+    private static final String  ERROR = "error";
+    private static final String  ERROR_DESCRIPTION = "errorDescription";
+    private static final String  REFERENCE = "reference";
 
     private final WireMockServer wireMockServer = new WireMockServer(1580);
 
@@ -47,6 +51,13 @@ public class GeocodingStepdefs  {
                                 .withHeader("Content-Type", "application/xml")
                                 .withBody(santiago)));
 
+    }
+
+    @Given("^External services are not available$")
+    public void externalServicesAreNotRunning() throws Exception {
+        if(wireMockServer.isRunning()){
+            wireMockServer.stop();
+        }
     }
 
     @When("^I made a GET request to the geocoding endppoint with address (\\w+)$")
@@ -72,6 +83,24 @@ public class GeocodingStepdefs  {
             }
             if(map.containsKey(LONGITUDE)){
                 Assert.assertEquals(map.get(LONGITUDE), geocodingResponse.getLongitude());
+            }
+        }
+    }
+
+    @And("^The error received is like")
+    public void validateErrorContent(DataTable expectedValues) throws IOException {
+        List<Map<String, String>> expected = expectedValues.asMaps(String.class, String.class);
+        GeocodingErrorResponse errorResponse = RestConsumer.convertResponseToErrorModel(responseHolder);
+        for (Map<String, String> map : expected) {
+            if(map.containsKey(ERROR)){
+                Assert.assertTrue(errorResponse.getError().startsWith(map.get(ERROR)));
+            }
+            if(map.containsKey(ERROR_DESCRIPTION)){
+                Assert.assertTrue(errorResponse.getErrorDescription().startsWith(map.get(ERROR_DESCRIPTION)));
+            }
+            if(map.containsKey(REFERENCE)){
+                Assert.assertNotNull(errorResponse.getReference());
+                Assert.assertNotEquals("",errorResponse.getReference());
             }
         }
     }
